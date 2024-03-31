@@ -6,7 +6,7 @@ Base = declarative_base()
 
 
 class Author(Base):
-    __tablename__ = 'authors'
+    __tablename__ = "authors"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
@@ -15,11 +15,11 @@ class Author(Base):
 
 
 class Book(Base):
-    __tablename__ = 'books'
+    __tablename__ = "books"
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
     summary = Column(String)
     publication_date = Column(Date)
-    author_id = Column(Integer, ForeignKey('authors.id'))
+    author_id = Column(Integer, ForeignKey("authors.id"))
     author = relationship("Author", back_populates="books")

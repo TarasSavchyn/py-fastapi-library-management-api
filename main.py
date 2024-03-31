@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-import models, schemas, crud
+import models
+import schemas
+import crud
 from db.engine import SessionLocal, engine
 from typing import List
 
@@ -23,7 +25,11 @@ def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/authors/", response_model=List[schemas.Author])
-def read_authors(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def read_authors(
+        skip: int = 0,
+        limit: int = 10,
+        db: Session = Depends(get_db)
+):
     authors = crud.get_authors(db, skip=skip, limit=limit)
     return authors
 
@@ -48,6 +54,16 @@ def read_books(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
 
 @app.get("/books/by_author/{author_id}", response_model=List[schemas.Book])
-def read_books_by_author(author_id: int, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    books = crud.get_books_by_author(db, author_id=author_id, skip=skip, limit=limit)
+def read_books_by_author(
+    author_id: int,
+        skip: int = 0,
+        limit: int = 10,
+        db: Session = Depends(get_db)
+):
+    books = crud.get_books_by_author(
+        db,
+        author_id=author_id,
+        skip=skip,
+        limit=limit
+    )
     return books

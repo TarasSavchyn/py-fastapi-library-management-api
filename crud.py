@@ -12,7 +12,9 @@ def create_author(db: Session, author: schemas.AuthorCreate):
 
 
 def get_author(db: Session, author_id: int):
-    return db.query(models.Author).filter(models.Author.id == author_id).first()
+    return db.query(models.Author).filter(
+        models.Author.id == author_id
+    ).first()
 
 
 def get_authors(db: Session, skip: int = 0, limit: int = 10):
@@ -35,5 +37,16 @@ def get_books(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Book).offset(skip).limit(limit).all()
 
 
-def get_books_by_author(db: Session, author_id: int, skip: int = 0, limit: int = 10):
-    return db.query(models.Book).filter(models.Book.author_id == author_id).offset(skip).limit(limit).all()
+def get_books_by_author(
+        db: Session,
+        author_id: int,
+        skip: int = 0,
+        limit: int = 10
+):
+    return (
+        db.query(models.Book)
+        .filter(models.Book.author_id == author_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
